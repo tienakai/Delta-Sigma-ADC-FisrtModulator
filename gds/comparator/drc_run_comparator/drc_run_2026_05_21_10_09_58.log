@@ -1,0 +1,11 @@
+21-May-2026 12:09:58 | INFO    | KLayout version detected: 0.30.5
+21-May-2026 12:09:58 | INFO    | Using DRC JSON file: /opt/pdks/ihp-sg13g2/libs.tech/klayout/python/sg13g2_pycell_lib/sg13g2_tech_mod.json
+21-May-2026 12:09:58 | INFO    | Running IHP-SG13G2 main checks on design /home/designer/shared/Delta-sigma-adc/gds/comparator/comparator.gds, topcell: comparator
+21-May-2026 12:10:00 | INFO    | Running IHP-SG13G2 sg13g2_maximal checks on design /home/designer/shared/Delta-sigma-adc/gds/comparator/comparator.gds, topcell: comparator
+21-May-2026 12:10:04 | INFO    | Completed running Sg13g2_maximal checks.
+21-May-2026 12:10:04 | ERROR   | ==================================================================================
+21-May-2026 12:10:04 | ERROR   | ❌ --- KLayout DRC Check Failed: Violations were detected in the layout. --- ❌
+21-May-2026 12:10:04 | ERROR   | ==================================================================================
+21-May-2026 12:10:04 | ERROR   | Violated rules are : {'M1.b', 'LU.b', 'LU.a'}
+
+21-May-2026 12:10:04 | INFO    | Total DRC Run time: 6.26 seconds (including execution, analysis, and reporting)

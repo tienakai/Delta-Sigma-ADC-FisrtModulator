@@ -1,0 +1,116 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/OTA_tb_loopgain.sch
+**.subckt OTA_tb_loopgain
+Vdd v_dd GND 1.2
+Vss v_ss GND 0
+Vin v_in v_ss dc 0.75
+VBP V_BP v_ss 0.2
+C2 vr1 v_ss 2p m=1
+Vtest1 vf1 vr1 dc 0 ac 1
+C1 net1 v_ss 2p m=1
+Vir1 net1 net2 0
+.save i(vir1)
+Vif1 net2 net3 0
+.save i(vif1)
+Itest1 v_ss net2 dc 0 ac 1
+C3 net4 v_ss 2p m=1
+C4 net5 v_ss 2p m=1
+Itest3 v_ss vmeas1 dc 0 ac 0
+Vtest2 vmeas1 net6 dc 0 ac 1
+Vimeas1 net4 net6 0
+.save i(vimeas1)
+Itest2 v_ss vmeas2 dc 0 ac 1
+Vtest3 vmeas2 net7 dc 0 ac 0
+Vimeas2 net5 net7 0
+.save i(vimeas2)
+x1 vmeas1 v_in V_BN V_BP net4 v_dd v_ss Pseudo_compensated_self_cascode_OTA
+VBN V_BN v_ss 0.3
+x2 vmeas2 v_in V_BN V_BP net5 v_dd v_ss Pseudo_compensated_self_cascode_OTA
+x3 vf1 v_in V_BN V_BP vr1 v_dd v_ss Pseudo_compensated_self_cascode_OTA
+x4 net3 v_in V_BN V_BP net1 v_dd v_ss Pseudo_compensated_self_cascode_OTA
+**** begin user architecture code
+ .lib cornerMOSlv.lib mos_tt
+
+
+
+.param temp=27
+.options savecurrents reltol=1e-3 abstol=1e-12 gmin=1e-15
+.control
+save all
+
+* Operating Point Analysis
+op
+remzerovec
+write ota-5t_tb-loopgain.raw
+set appendwrite
+
+* AC Analysis
+ac dec 101 1 100G
+remzerovec
+write ota-5t_tb-loopgain.raw
+set appendwrite
+
+* Middlebrook's Method
+let tv=-v(vr1)/v(vf1)
+let ti=-i(vir1)/i(vif1)
+let tmb=(tv*ti - 1)/(tv + ti + 2)
+
+plot db(tmb) ylabel 'Magnitude - Middlebrook'
+plot 180/pi*cphase(tmb) ylabel 'Phase - Middlebrook'
+
+* Tian's Method
+* vtest=0, itest=1:
+let A=i(Vimeas2)
+let C=v(vmeas2)
+
+* vtest=1, itest=0:
+let B=i(Vimeas1)
+let D=v(vmeas1)
+let ttian=(A*D-B*C-A)/(2*(B*C-A*D)+A-D+1)
+
+plot db(ttian) ylabel 'Magnitude - Tian'
+plot 180/pi*cphase(ttian) ylabel 'Phase - Tian'
+
+* Middlebrook vs. Tian
+plot db(tmb) db(ttian) ylabel 'Magnitude'
+plot 180/pi*cphase(tmb) 180/pi*cphase(ttian) ylabel 'Phase'
+
+write ota-5t_tb-loopgain.raw
+
+*quit
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  Pseudo_compensated_self_cascode_OTA.sym # of pins=7
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/Pseudo_compensated_self_cascode_OTA.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/Pseudo_compensated_self_cascode_OTA.sch
+.subckt Pseudo_compensated_self_cascode_OTA VN VP V_BN V_BP V_OUT VDD VSS
+*.ipin VN
+*.ipin VP
+*.ipin V_BN
+*.ipin V_BP
+*.opin V_OUT
+*.iopin VDD
+*.iopin VSS
+XM11 net1 VN net2 VSS sg13_lv_nmos w=70u l=0.8u ng=7 m=1
+XM12 V_GS VN net1 V_BP sg13_lv_nmos w=38.5u l=0.3u ng=4 m=1
+XM21 net4 VP net2 VSS sg13_lv_nmos w=70u l=0.8u ng=7 m=1
+XM22 VB32 VP net4 V_BP sg13_lv_nmos w=38.5u l=0.3u ng=4 m=1
+XM52 net2 V_BN net3 V_BN sg13_lv_nmos w=40u l=0.5u ng=4 m=1
+XM51 net3 V_BN VSS VSS sg13_lv_nmos w=40u l=2.5u ng=4 m=1
+XM32 V_GS V_GS VS32 VB32 sg13_lv_pmos w=48.5u l=1.24u ng=5 m=1
+XM31 VS32 V_GS VDD VDD sg13_lv_pmos w=48.5u l=0.87u ng=5 m=1
+XM42 VB32 V_GS VS42 V_GS sg13_lv_pmos w=48.5u l=1.24u ng=5 m=1
+XM41 VS42 V_GS VDD VDD sg13_lv_pmos w=48.5u l=0.87u ng=5 m=1
+XM61 net5 VB32 VDD VDD sg13_lv_pmos w=60u l=0.13u ng=6 m=1
+XM62 V_OUT VB32 net5 V_BP sg13_lv_pmos w=60u l=0.13u ng=6 m=1
+XM72 V_OUT V_BN net6 V_BN sg13_lv_nmos w=40u l=0.5u ng=10 m=1
+XM71 net6 V_BN VSS VSS sg13_lv_nmos w=40u l=2.5u ng=4 m=1
+C1 VS42 V_OUT 1.45p m=1
+C2 net4 V_OUT 1.45p m=1
+.ends
+
+.GLOBAL GND
+.end

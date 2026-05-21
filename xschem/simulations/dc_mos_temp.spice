@@ -1,0 +1,46 @@
+** sch_path: /opt/pdks/ihp-sg13g2/libs.tech/xschem/sg13g2_tests_xyce/dc_mos_temp.sch
+**.subckt dc_mos_temp
+Vgs Vgs GND 0.75
+Vds Vds GND 1.2
+XM1 net1 Vgs GND GND sg13_lv_nmos w=1.0u l=0.35u ng=1 m=1
+Vm1 Vds net1 0
+.save i(vm1)
+Vm2 Vds net2 0
+.save i(vm2)
+XM2 net2 Vgs GND GND sg13_hv_nmos w=1.0u l=0.35u ng=1 m=1
+Vm3 Vdsp net3 0
+.save i(vm3)
+Vm4 Vdsp net4 0
+.save i(vm4)
+XM3 GND Vgsp net3 GND sg13_lv_pmos w=1.0u l=0.35u ng=1 m=1
+XM4 GND Vgsp net4 GND sg13_hv_pmos w=1.0u l=0.35u ng=1 m=1
+Vgs1 Vgsp GND -0.75
+Vds2 Vdsp GND -1.5
+**** begin user architecture code
+
+
+
+
+
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerMOShv.lib mos_tt
+
+
+
+
+
+.param temp=27
+.control
+save all
+dc temp -40 125 1
+write mos_temp.raw
+wrdata mos_temp.csv I(Vm1) I(Vm2) I(Vm3) I(Vm4)
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end

@@ -1,0 +1,57 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/T_gate_switch_tb.sch
+**.subckt T_gate_switch_tb Vo
+*.iopin Vo
+V1 vref_pos GND 0.7
+V2 Vin GND PULSE(0 1 0 10n 10n 10u 20u)
+V3 vdd GND 1.2
+x2 net1 vref_pos Vo GND Vin vdd T_gate
+x3 Vin vref_neg Vo GND net1 vdd T_gate
+x1 vdd Vin net1 GND inverter
+V4 vref_neg GND 0.5
+C1 Vo GND 1p m=1
+**** begin user architecture code
+
+
+.control
+save all
+tran 1u 100u
+write T_gate_tb.raw
+.endc
+
+
+ .lib cornerMOSlv.lib mos_tt
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:
+*+  /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/T_gate/schematic/T_gate.sym # of pins=6
+** sym_path: /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/T_gate/schematic/T_gate.sym
+** sch_path: /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/T_gate/schematic/T_gate.sch
+.subckt T_gate !Control Vin Vout gnd Control vdd
+*.iopin Vout
+*.iopin Vin
+*.iopin !Control
+*.iopin Control
+*.iopin gnd
+*.iopin vdd
+XM1 Vin Control Vout gnd sg13_lv_nmos w=1u l=0.13u ng=1 m=1
+XM2 Vout !Control Vin vdd sg13_lv_pmos w=3u l=0.13u ng=1 m=1
+.ends
+
+
+* expanding   symbol:
+*+  /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/bootstrap_switch/schematic/inverter.sym # of pins=4
+** sym_path: /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/bootstrap_switch/schematic/inverter.sym
+** sch_path: /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/bootstrap_switch/schematic/inverter.sch
+.subckt inverter vdd vi vo gnd
+*.iopin vi
+*.iopin vo
+*.iopin gnd
+*.iopin vdd
+XM5 vo vi vdd vdd sg13_lv_pmos w=800n l=130n ng=1 m=1
+XM7 vo vi gnd gnd sg13_lv_nmos w=400n l=130n ng=1 m=1
+.ends
+
+.GLOBAL GND
+.end

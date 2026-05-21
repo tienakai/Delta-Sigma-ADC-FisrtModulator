@@ -1,0 +1,104 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/T_gate_tb_op.sch
+**.subckt T_gate_tb_op
+v_a v_a GND 0.6
+VDD1 VDD GND 1.2
+C3 vout_tg_on GND 5p m=1
+C4 vout_tg_off GND 5p m=1
+x1 GND v_a vout_tg_on GND VDD VDD T_gate
+x2 VDD v_a vout_tg_off GND GND VDD T_gate
+**** begin user architecture code
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerRES.lib res_typ
+
+
+
+.param temp=27
+.options savecurrents
+.control
+save all
+
+show n.x1.xm1.nsg13_lv_nmos
+show n.x1.xm2.nsg13_lv_pmos
+
+* Save transistor parameters
+save @n.x1.xm1.nsg13_lv_nmos[vth]
+save @n.x1.xm1.nsg13_lv_nmos[vgs]
+save @n.x1.xm1.nsg13_lv_nmos[vds]
+save @n.x1.xm1.nsg13_lv_nmos[vgt]
+save @n.x1.xm1.nsg13_lv_nmos[ids]
+save @n.x1.xm1.nsg13_lv_nmos[gm]
+save @n.x1.xm1.nsg13_lv_nmos[gds]
+save @n.x1.xm1.nsg13_lv_nmos[gmb]
+save @n.x1.xm1.nsg13_lv_nmos[cgs]
+save @n.x1.xm1.nsg13_lv_nmos[cgd]
+save @n.x1.xm1.nsg13_lv_nmos[fug]
+save @n.x1.xm1.nsg13_lv_nmos[rg]
+
+save @n.x1.xm2.nsg13_lv_pmos[vth]
+save @n.x1.xm2.nsg13_lv_pmos[vgs]
+save @n.x1.xm2.nsg13_lv_pmos[vds]
+save @n.x1.xm2.nsg13_lv_pmos[vgt]
+save @n.x1.xm2.nsg13_lv_pmos[ids]
+save @n.x1.xm2.nsg13_lv_pmos[gm]
+save @n.x1.xm2.nsg13_lv_pmos[gds]
+save @n.x1.xm2.nsg13_lv_pmos[gmb]
+save @n.x1.xm2.nsg13_lv_pmos[cgs]
+save @n.x1.xm2.nsg13_lv_pmos[cgd]
+save @n.x1.xm2.nsg13_lv_pmos[fug]
+save @n.x1.xm2.nsg13_lv_pmos[rg]
+
+save @n.x2.xm1.nsg13_lv_nmos[vth]
+save @n.x2.xm1.nsg13_lv_nmos[vgs]
+save @n.x2.xm1.nsg13_lv_nmos[vds]
+save @n.x2.xm1.nsg13_lv_nmos[vgt]
+save @n.x2.xm1.nsg13_lv_nmos[ids]
+save @n.x2.xm1.nsg13_lv_nmos[gm]
+save @n.x2.xm1.nsg13_lv_nmos[gds]
+save @n.x2.xm1.nsg13_lv_nmos[gmb]
+save @n.x2.xm1.nsg13_lv_nmos[cgs]
+save @n.x2.xm1.nsg13_lv_nmos[cgd]
+save @n.x2.xm1.nsg13_lv_nmos[fug]
+save @n.x2.xm1.nsg13_lv_nmos[rg]
+
+save @n.x2.xm2.nsg13_lv_pmos[vth]
+save @n.x2.xm2.nsg13_lv_pmos[vgs]
+save @n.x2.xm2.nsg13_lv_pmos[vds]
+save @n.x2.xm2.nsg13_lv_pmos[vgt]
+save @n.x2.xm2.nsg13_lv_pmos[ids]
+save @n.x2.xm2.nsg13_lv_pmos[gm]
+save @n.x2.xm2.nsg13_lv_pmos[gds]
+save @n.x2.xm2.nsg13_lv_pmos[gmb]
+save @n.x2.xm2.nsg13_lv_pmos[cgs]
+save @n.x2.xm2.nsg13_lv_pmos[cgd]
+save @n.x2.xm2.nsg13_lv_pmos[fug]
+save @n.x2.xm2.nsg13_lv_pmos[rg]
+
+* Operating Point Analysis
+op
+remzerovec
+write T_gate_tb_op.raw
+
+quit
+.endc
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  T_gate.sym # of pins=6
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/T_gate.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/T_gate.sch
+.subckt T_gate !Control Vin Vout gnd Control vdd
+*.iopin Vout
+*.iopin Vin
+*.iopin !Control
+*.iopin Control
+*.iopin gnd
+*.iopin vdd
+XM1 Vin Control Vout gnd sg13_lv_nmos w=1u l=0.13u ng=1 m=1
+XM2 Vout !Control Vin vdd sg13_lv_pmos w=3u l=0.13u ng=1 m=1
+.ends
+
+.GLOBAL GND
+.GLOBAL VDD
+.end

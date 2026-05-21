@@ -1,0 +1,68 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/comparator_tb_ac.sch
+**.subckt comparator_tb_ac
+C1 v_out V_SS 0.05p m=1
+Vin V_in GND dc 0.7 ac 1
+VDD V_DD GND 1.2
+V_SS V_SS GND 0
+I1 V_SS v_out dc 0 ac 0
+.save v(v_out)
+.save v(v_in)
+x1 V_DD v_out v_out V_in V_SS comparator
+**** begin user architecture code
+ .lib cornerMOSlv.lib mos_tt
+
+
+
+.temp 27
+.control
+option sparse
+save all
+op
+write comparator_tb_ac.raw
+set appendwrite
+
+ac dec 101 1k 100MEG
+write comparator_tb_ac.raw
+plot 20*log10(v_out)
+
+meas ac dcgain MAX vmag(v_out) FROM=10 TO=10k
+let f3db = dcgain/sqrt(2)
+meas ac fbw WHEN vmag(v_out)=f3db FALL=1
+let gainerror=(dcgain-1)/1
+print dcgain
+print fbw
+print gainerror
+
+noise v(v_out) Vin dec 101 1k 100MEG
+print onoise_total
+
+.endc
+
+
+ .include /home/designer/shared/Delta-sigma-adc/xschem/comparator_tb_ac.save
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  comparator.sym # of pins=5
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/comparator.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/comparator.sch
+.subckt comparator VDD out inn inp VSS
+*.ipin inp
+*.ipin inn
+*.iopin VDD
+*.iopin VSS
+*.opin out
+XM4 net2 net1 VDD VDD sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+XM3 net1 net1 VDD VDD sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+XM1 net1 inp net3 VSS sg13_lv_nmos w=1.5u l=5u ng=1 m=1
+XM2 net2 inn net3 VSS sg13_lv_nmos w=1.5u l=5u ng=1 m=1
+XM7 net4 net4 VDD VDD sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+XM8 out net2 VDD VDD sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+XM6 net4 net4 VSS VSS sg13_lv_nmos w=2.5u l=5u ng=1 m=1
+XM5 net3 net4 VSS VSS sg13_lv_nmos w=1.5u l=5u ng=1 m=1
+XM9 out net4 VSS VSS sg13_lv_nmos w=1.5u l=5u ng=1 m=1
+.ends
+
+.GLOBAL GND
+.end

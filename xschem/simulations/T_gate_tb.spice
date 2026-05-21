@@ -1,0 +1,48 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/T_gate_tb.sch
+**.subckt T_gate_tb
+x2 phi1n Vin vo GND phi1 vdd T_gate
+V3 vdd GND 1.2
+V5 phi1 GND PULSE(0 1.2 0 1n 1n 48.828125n 97.65625n)
+V6 phi1n GND PULSE(1.2 0 0 1n 1n 48.828125n 97.65625n)
+V2 Vin GND SIN(0 0.1 20k)
+C1 vo GND 5p m=1
+**** begin user architecture code
+
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerMOShv.lib mos_tt
+.lib cornerHBT.lib hbt_typ
+.lib cornerRES.lib res_typ
+.lib cornerCAP.lib cap_typ
+
+
+
+
+.control
+save all
+tran 1u 100u
+write T_gate_tb.raw
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:
+*+  /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/T_gate/schematic/T_gate.sym # of pins=6
+** sym_path: /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/T_gate/schematic/T_gate.sym
+** sch_path: /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/T_gate/schematic/T_gate.sch
+.subckt T_gate !Control Vin Vout gnd Control vdd
+*.iopin Vout
+*.iopin Vin
+*.iopin !Control
+*.iopin Control
+*.iopin gnd
+*.iopin vdd
+XM1 Vin Control Vout gnd sg13_lv_nmos w=2u l=0.13u ng=1 m=1
+XM2 Vout !Control Vin vdd sg13_lv_pmos w=6u l=0.13u ng=2 m=1
+.ends
+
+.GLOBAL GND
+.end

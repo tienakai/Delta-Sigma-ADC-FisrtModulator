@@ -1,0 +1,16 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/buffer.sch
+.subckt buffer vin vdd gnd vout
+*.PININFO vin:I vdd:B gnd:B vout:O
+x10 vdd gnd vin net1 inv_4
+x8 vdd gnd net1 vout inv_4
+.ends
+
+* expanding   symbol:  inv_4.sym # of pins=4
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/inv_4.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/inv_4.sch
+.subckt inv_4 VDD VSS A Y
+*.PININFO Y:O A:I VDD:B VSS:B
+MN0 Y A VSS VSS sg13_lv_nmos w=2.96u l=130.00n ng=4 m=1
+MP0 Y A VDD VDD sg13_lv_pmos w=4.48u l=130.00n ng=4 m=1
+.ends
+

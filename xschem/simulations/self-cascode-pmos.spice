@@ -1,0 +1,66 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/self-cascode-pmos.sch
+**.subckt self-cascode-pmos
+Vgs G GND 0.4
+Vds D GND 1.2
+Vd D net2 0
+.save i(vd)
+Vb net3 GND 0.4
+XM1 net1 G net2 D sg13_lv_pmos w={wx} l={l1} ng=1 m=1
+XM2 GND G net1 net3 sg13_lv_pmos w={wx} l={l2} ng=1 m=1
+**** begin user architecture code
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerRES.lib res_typ
+
+
+.param l1=0.2u
+.param l2='1u - l1'
+.param wx = 5u
+.control
+save @n.xm1.nsg13_lv_pmos[gm]
+save @n.xm1.nsg13_lv_pmos[gds]
+save @n.xm1.nsg13_lv_pmos[l]
+save @n.xm2.nsg13_lv_pmos[gm]
+save @n.xm2.nsg13_lv_pmos[gds]
+save @n.xm2.nsg13_lv_pmos[gmb]
+save @n.xm2.nsg13_lv_pmos[vbs]
+compose l1_vec start=0.13u stop=0.87u step=0.05u
+
+let gm_vec  = vector(length(l1_vec))
+let rout_vec  = vector(length(l1_vec))
+
+let idx = 0
+
+foreach val $&l1_vec
+    alterparam l1 = $val
+    alterparam l2 = 1u - $val
+
+    reset
+    op
+
+    let gm_val1  = @n.xm1.nsg13_lv_pmos[gm]
+    let gds_val1 = @n.xm1.nsg13_lv_pmos[gds]
+    let gm_val2 = @n.xm2.nsg13_lv_pmos[gm]
+    let gds_val2 = @n.xm2.nsg13_lv_pmos[gds]
+    let gmb_val2 = @n.xm2.nsg13_lv_pmos[gmb]
+
+    let r1 = 1 / gds_val1
+    let r2 = 1 / gds_val2
+
+    * Lưu vào vector
+
+    let gm_vec[idx]   = gm_val1
+    let rout_vec[idx] = (gm_val2 + gmb_val2) * r1 * r2
+    let idx = idx + 1
+end
+
+plot gm_vec vs l1_vec xlabel 'L1 (m)' ylabel 'gm (S)'
+plot rout_vec vs l1_vec xlabel 'L1 (m)' ylabel 'Rout (Ohm)'
+
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end

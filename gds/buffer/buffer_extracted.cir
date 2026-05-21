@@ -1,0 +1,12 @@
+* Extracted by KLayout with SG13G2 LVS runset on : 18/05/2026 12:18
+
+.SUBCKT buffer gnd vout vin vdd
+M$1 gnd vin \$2 gnd sg13_lv_nmos L=0.13u W=2.96u AS=0.6734p AD=0.6734p PS=5.52u
++ PD=5.52u
+M$5 gnd \$2 vout gnd sg13_lv_nmos L=0.13u W=2.96u AS=0.6734p AD=0.6734p
++ PS=5.52u PD=5.52u
+M$9 vdd vin \$2 vdd sg13_lv_pmos L=0.13u W=4.48u AS=1.0192p AD=1.0192p PS=7.42u
++ PD=7.42u
+M$13 vdd \$2 vout vdd sg13_lv_pmos L=0.13u W=4.48u AS=1.0192p AD=1.0192p
++ PS=7.42u PD=7.42u
+.ENDS buffer

@@ -1,0 +1,27 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/self-cascode-pmos-tran.sch
+**.subckt self-cascode-pmos-tran
+Vgs G GND 0.3
+Vds D GND 1.2
+Vd D net1 0
+.save i(vd)
+Vb B GND 0.2
+XM1 S G net1 D sg13_lv_pmos w=5 l=4.87 ng=1 m=1
+XM2 GND net2 S B sg13_lv_pmos w=5 l=0.13 ng=1 m=1
+**** begin user architecture code
+
+
+.control
+save all
+tran 10n 6u
+write self-cascode-pmos-tran.raw
+.endc
+
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerRES.lib res_typ
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end

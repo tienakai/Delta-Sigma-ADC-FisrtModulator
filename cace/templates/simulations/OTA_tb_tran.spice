@@ -1,0 +1,72 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/cace/templates/OTA_tb_tran.sch
+**.subckt OTA_tb_tran
+VDD V_DD GND CACE{vdd}
+V_SS V_SS GND 0
+VBN V_BN GND 0.3
+VBP V_BP GND 0.2
+vin vin GND PULSE(0.5 0.7 1u 1n 1n 10u 20u)
+C2 v_out GND CACE{cload} m=1
+x1 v_out vin V_BN V_BP v_out V_DD V_SS Pseudo_compensated_self_cascode_OTA
+**** begin user architecture code
+
+.lib cornerMOSlv.lib mos_CACE{corner}
+.lib cornerMOShv.lib mos_CACE{corner}
+
+
+
+.include CACE{DUT_path}
+.temp CACE{temp}
+.param mc_ok = CACE{sigma=1}
+.option SEED=CACE[CACE{seed=12345} + CACE{iterations=0}]
+
+.ic v(v_out)=0
+.option method=gear
+
+.control
+set num_threads=1
+tran 1n 20u uic
+let vin_limit=0.56*CACE{vdd}
+let vout_limit=vin_limit*0.999
+meas tran tcross WHEN v(v_out)=vout_limit RISE = 1
+
+meas tran tstart WHEN v(vin)=vin_limit RISE = 1
+let tsettle=tcross-tstart
+
+echo $&tsettle > CACE{simpath}/CACE{filename}_CACE{N}.data
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  /home/designer/shared/Delta-sigma-adc/xschem/Pseudo_compensated_self_cascode_OTA.sym # of pins=7
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/Pseudo_compensated_self_cascode_OTA.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/Pseudo_compensated_self_cascode_OTA.sch
+.subckt Pseudo_compensated_self_cascode_OTA VN VP V_BN V_BP V_OUT VDD VSS
+*.ipin VN
+*.ipin VP
+*.ipin V_BN
+*.ipin V_BP
+*.opin V_OUT
+*.iopin VDD
+*.iopin VSS
+XM11 net1 VN net2 VSS sg13_lv_nmos w=70u l=0.8u ng=7 m=1
+XM12 V_GS VN net1 V_BP sg13_lv_nmos w=38.5u l=0.3u ng=4 m=1
+XM21 net4 VP net2 VSS sg13_lv_nmos w=70u l=0.8u ng=7 m=1
+XM22 VB32 VP net4 V_BP sg13_lv_nmos w=38.5u l=0.3u ng=4 m=1
+XM52 net2 V_BN net3 V_BN sg13_lv_nmos w=40u l=0.5u ng=4 m=1
+XM51 net3 V_BN VSS VSS sg13_lv_nmos w=40u l=2.5u ng=4 m=1
+XM32 V_GS V_GS VS32 VB32 sg13_lv_pmos w=48.5u l=1.24u ng=5 m=1
+XM31 VS32 V_GS VDD VDD sg13_lv_pmos w=48.5u l=0.87u ng=5 m=1
+XM42 VB32 V_GS VS42 V_GS sg13_lv_pmos w=48.5u l=1.24u ng=5 m=1
+XM41 VS42 V_GS VDD VDD sg13_lv_pmos w=48.5u l=0.87u ng=5 m=1
+XM61 net5 VB32 VDD VDD sg13_lv_pmos w=60u l=0.13u ng=6 m=1
+XM62 V_OUT VB32 net5 V_BP sg13_lv_pmos w=60u l=0.13u ng=6 m=1
+XM72 V_OUT V_BN net6 V_BN sg13_lv_nmos w=40u l=0.5u ng=10 m=1
+XM71 net6 V_BN VSS VSS sg13_lv_nmos w=40u l=2.5u ng=4 m=1
+C1 VS42 V_OUT 1.45p m=1
+C2 net4 V_OUT 1.45p m=1
+.ends
+
+.GLOBAL GND
+.end

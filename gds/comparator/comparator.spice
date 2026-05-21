@@ -1,0 +1,13 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/comparator.sch
+.subckt comparator VDD out inn inp VSS
+*.PININFO inp:I inn:I VDD:B VSS:B out:O
+M4 net2 net1 VDD VDD sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+M3 net1 net1 VDD VDD sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+M1 net1 inp net3 VSS sg13_lv_nmos w=1.5u l=5u ng=1 m=1
+M2 net2 inn net3 VSS sg13_lv_nmos w=1.5u l=5u ng=1 m=1
+M7 net4 net4 VDD VDD sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+M8 out net2 VDD VDD sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+M6 net4 net4 VSS VSS sg13_lv_nmos w=2.5u l=5u ng=1 m=1
+M5 net3 net4 VSS VSS sg13_lv_nmos w=1.5u l=5u ng=1 m=1
+M9 out net4 VSS VSS sg13_lv_nmos w=1.5u l=5u ng=1 m=1
+.ends

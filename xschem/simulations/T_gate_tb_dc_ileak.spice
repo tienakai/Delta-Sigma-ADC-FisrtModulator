@@ -1,0 +1,62 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/T_gate_tb_dc_ileak.sch
+**.subckt T_gate_tb_dc_ileak
+x2 vdd Vin vo GND GND vdd T_gate
+Vin Vin GND 0.6
+V3 vdd GND 1.2
+vout vo GND 0.6
+**** begin user architecture code
+
+
+.param temp=27
+.options savecurrents
+.control
+save all
+
+* Operating Point Analysis
+op
+remzerovec
+write transmission_gate_tb_dc_Ileak.raw
+set appendwrite
+
+* DC Sweep Analysis with Dummy
+dc Vin 0 1.2 10m vout 0 1.2 0.6
+write transmission_gate_tb_dc_Ileak.raw
+set appendwrite
+
+* Off-Leakage Current
+let Ileak = i(vout)
+plot Ileak
+
+*quit
+.endc
+
+
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerMOShv.lib mos_tt
+.lib cornerHBT.lib hbt_typ
+.lib cornerRES.lib res_typ
+.lib cornerCAP.lib cap_typ
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:
+*+  /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/T_gate/schematic/T_gate.sym # of pins=6
+** sym_path: /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/T_gate/schematic/T_gate.sym
+** sch_path: /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/T_gate/schematic/T_gate.sch
+.subckt T_gate !Control Vin Vout gnd Control vdd
+*.iopin Vout
+*.iopin Vin
+*.iopin !Control
+*.iopin Control
+*.iopin gnd
+*.iopin vdd
+XM1 Vin Control Vout gnd sg13_lv_nmos w=1u l=0.13u ng=1 m=1
+XM2 Vout !Control Vin vdd sg13_lv_pmos w=3u l=0.13u ng=1 m=1
+.ends
+
+.GLOBAL GND
+.end

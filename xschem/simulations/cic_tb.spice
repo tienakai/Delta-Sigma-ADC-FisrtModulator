@@ -1,0 +1,57 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/cic_tb.sch
+**.subckt cic_tb
+V1 CLK GND PULSE(0 1.2 0 100p 100p 5n 100n)
+V2 RST GND PWL( 0n 1.2 40n 1.2 40.1n 0
+)
+V3 X GND PULSE(0 1.2 0 100p 100p 5n 100n)
+A18 [ CLK ] [ net1 ] adc1
+.model adc1 adc_bridge in_low=0.1 in_high=0.9
+A1 [ RST ] [ net2 ] adc1
+.model adc1 adc_bridge in_low=0.1 in_high=0.9
+A3 [ X ] [ net3 ] adc1
+.model adc1 adc_bridge in_low=0.1 in_high=0.9
+A2 [ net17 ] [ D0 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A4 [ net16 ] [ D1 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A5 [ net15 ] [ D2 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A6 [ net14 ] [ D3 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A7 [ net13 ] [ D4 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A8 [ net12 ] [ D5 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A9 [ net11 ] [ D6 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A10 [ net10 ] [ D7 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A11 [ net9 ] [ D8 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A12 [ net8 ] [ D9 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A13 [ net7 ] [ D10 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A14 [ net6 ] [ D11 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A15 [ net5 ] [ D12 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A16 [ net4 ] [ D13 ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+adut [ net1 net2 net3 ] [ net4 net5 net6 net7 net8 net9 net10 net11 net12 net13 net14 net15 net16 net17 ] null dut
+.model dut d_cosim simulation=./CIC_wrapper.so
+**** begin user architecture code
+
+
+.param temp=27
+.control
+save all
+tran 100p 20u
+write cic_tb.raw
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end

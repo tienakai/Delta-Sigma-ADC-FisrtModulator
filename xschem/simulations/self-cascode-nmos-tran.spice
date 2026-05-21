@@ -1,0 +1,27 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/self-cascode-nmos-tran.sch
+**.subckt self-cascode-nmos-tran
+Vgs G GND 0.5
+Vds D GND 1.2
+Vd D net1 0
+.save i(vd)
+XM1 s G GND GND sg13_lv_nmos w=12.5u l=0.5u ng=2 m=1
+XM2 net1 G s B sg13_lv_nmos w=12.5u l=0.5u ng=2 m=1
+Vb B GND 0.6
+**** begin user architecture code
+
+
+.control
+save all
+tran 10n 6u
+write self-cascode-nmos-tran.raw
+.endc
+
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerRES.lib res_typ
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end

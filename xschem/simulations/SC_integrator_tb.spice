@@ -1,0 +1,55 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/SC_integrator_tb.sch
+**.subckt SC_integrator_tb
+x1 phi1n Vin net1 GND phi1 vdd T_gate
+x2 phi2n Vfb net1 GND phi2 vdd T_gate
+x3 phi1n Vcm net2 GND phi1 vdd T_gate
+XC1 net1 net2 cap_cmim w=7.0e-6 l=7.0e-6 m=70
+x4 phi2n net2 vout GND phi2 vdd T_gate
+V1 Vcm GND 0.6
+V2 Vin GND SIN(0 0.1 5k)
+V3 vdd GND 1.2
+V4 Vfb GND 0
+V5 phi1 GND PULSE(0 1.2 0 1n 1n 180n 390.625n)
+V6 phi1n GND PULSE(1.2 0 0 1n 1n 180n 390.625n)
+V7 phi2 GND PULSE(0 1.2 210n 1n 1n 180n 390.625n)
+V8 phi2n GND PULSE(1.2 0 210n 1n 1n 180n 390.625n)
+XC4 vout GND cap_cmim w=7.0e-6 l=7.0e-6 m=10
+**** begin user architecture code
+
+
+.control
+save all
+tran 1u 300u
+write T_gate_tb.raw
+.endc
+
+
+
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerMOShv.lib mos_tt
+.lib cornerHBT.lib hbt_typ
+.lib cornerRES.lib res_typ
+.lib cornerCAP.lib cap_typ
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  T_gate.sym # of pins=6
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/T_gate.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/T_gate.sch
+.subckt T_gate !Control Vin Vout gnd Control vdd
+*.iopin Vout
+*.iopin Vin
+*.iopin !Control
+*.iopin Control
+*.iopin gnd
+*.iopin vdd
+XM1 Vin Control Vout gnd sg13_lv_nmos w=1u l=0.13u ng=1 m=1
+XM2 Vout !Control Vin vdd sg13_lv_pmos w=3u l=0.13u ng=1 m=1
+.ends
+
+.GLOBAL GND
+.end

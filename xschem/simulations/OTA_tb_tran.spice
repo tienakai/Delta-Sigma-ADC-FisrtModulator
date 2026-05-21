@@ -1,0 +1,78 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/OTA_tb_tran.sch
+**.subckt OTA_tb_tran
+VDD V_DD GND 1.2
+V_SS V_SS GND 0
+Vin1 V_BN GND 0.3
+Vin2 V_BP GND 0.2
+x1 vout V_in V_BN V_BP vout V_DD V_SS Pseudo_compensated_self_cascode_OTA
+C1 vout GND 2p m=1
+Vin3 V_in GND PULSE(0.5 0.7 1u 1n 1n 10u 20u)
+**** begin user architecture code
+
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerMOShv.lib mos_tt
+.lib cornerHBT.lib hbt_typ
+.lib cornerRES.lib res_typ
+.lib cornerCAP.lib cap_typ
+
+
+
+
+.temp 27
+.option method=gear
+
+.control
+
+tran 1n 20u
+
+plot v(v_in) v(vout)
+let vin_limit = 0.56*1.2
+meas tran tstart WHEN v(v_in)=vin_limit RISE=1
+
+let vlimit = vin_limit*0.999
+
+meas tran tcross WHEN v(vout)=vlimit RISE=1
+
+let tsettle = tcross - tstart
+
+print tsettle
+
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  Pseudo_compensated_self_cascode_OTA.sym # of pins=7
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/Pseudo_compensated_self_cascode_OTA.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/Pseudo_compensated_self_cascode_OTA.sch
+.subckt Pseudo_compensated_self_cascode_OTA VN VP V_BN V_BP V_OUT VDD VSS
+*.ipin VN
+*.ipin VP
+*.ipin V_BN
+*.ipin V_BP
+*.opin V_OUT
+*.iopin VDD
+*.iopin VSS
+XM11 net1 VN net2 VSS sg13_lv_nmos w=70u l=0.8u ng=7 m=1
+XM12 V_GS VN net1 V_BP sg13_lv_nmos w=38.5u l=0.3u ng=4 m=1
+XM21 net4 VP net2 VSS sg13_lv_nmos w=70u l=0.8u ng=7 m=1
+XM22 VB32 VP net4 V_BP sg13_lv_nmos w=38.5u l=0.3u ng=4 m=1
+XM52 net2 V_BN net3 V_BN sg13_lv_nmos w=40u l=0.5u ng=4 m=1
+XM51 net3 V_BN VSS VSS sg13_lv_nmos w=40u l=2.5u ng=4 m=1
+XM32 V_GS V_GS VS32 VB32 sg13_lv_pmos w=48.5u l=1.24u ng=5 m=1
+XM31 VS32 V_GS VDD VDD sg13_lv_pmos w=48.5u l=0.87u ng=5 m=1
+XM42 VB32 V_GS VS42 V_GS sg13_lv_pmos w=48.5u l=1.24u ng=5 m=1
+XM41 VS42 V_GS VDD VDD sg13_lv_pmos w=48.5u l=0.87u ng=5 m=1
+XM61 net5 VB32 VDD VDD sg13_lv_pmos w=60u l=0.13u ng=6 m=1
+XM62 V_OUT VB32 net5 V_BP sg13_lv_pmos w=60u l=0.13u ng=6 m=1
+XM72 V_OUT V_BN net6 V_BN sg13_lv_nmos w=40u l=0.5u ng=10 m=1
+XM71 net6 V_BN VSS VSS sg13_lv_nmos w=40u l=2.5u ng=4 m=1
+XC3 VS42 V_OUT cap_cmim w=5.0e-6 l=5.0e-6 m=38
+XC1 net4 V_OUT cap_cmim w=5.0e-6 l=5.0e-6 m=38
+.ends
+
+.GLOBAL GND
+.end

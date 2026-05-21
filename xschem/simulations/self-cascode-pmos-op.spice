@@ -1,0 +1,64 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/self-cascode-pmos-op.sch
+**.subckt self-cascode-pmos-op
+Vgs G GND 0.3
+Vds D GND 1.2
+Vd D net3 0
+.save i(vd)
+Vb net1 GND 0.2
+XM1 net2 G net3 D sg13_lv_pmos w=5 l=4.87 ng=1 m=1
+XM2 GND net4 net2 net1 sg13_lv_pmos w=5 l=0.13 ng=1 m=1
+**** begin user architecture code
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerRES.lib res_typ
+
+
+
+.param temp=27
+.options savecurrents
+.control
+save all
+
+show @n.xm1.nsg13_lv_pmos
+show @n.xm2.nsg13_lv_pmos
+
+* Save transistor parameters
+save @n.xm1.nsg13_lv_pmos[vth]
+save @n.xm1.nsg13_lv_pmos[vgs]
+save @n.xm1.nsg13_lv_pmos[vds]
+save @n.xm1.nsg13_lv_pmos[vgt]
+save @n.xm1.nsg13_lv_pmos[ids]
+save @n.xm1.nsg13_lv_pmos[gm]
+save @n.xm1.nsg13_lv_pmos[gds]
+save @n.xm1.nsg13_lv_pmos[gmb]
+save @n.xm1.nsg13_lv_pmos[cgs]
+save @n.xm1.nsg13_lv_pmos[cgd]
+save @n.xm1.nsg13_lv_pmos[fug]
+save @n.xm1.nsg13_lv_pmos[rg]
+save @n.xm1.nsg13_lv_pmos[sb]
+
+save @n.xm2.nsg13_lv_pmos[vth]
+save @n.xm2.nsg13_lv_pmos[vgs]
+save @n.xm2.nsg13_lv_pmos[vds]
+save @n.xm2.nsg13_lv_pmos[vgt]
+save @n.xm2.nsg13_lv_pmos[ids]
+save @n.xm2.nsg13_lv_pmos[gm]
+save @n.xm2.nsg13_lv_pmos[gds]
+save @n.xm2.nsg13_lv_pmos[gmb]
+save @n.xm2.nsg13_lv_pmos[cgs]
+save @n.xm2.nsg13_lv_pmos[cgd]
+save @n.xm2.nsg13_lv_pmos[fug]
+save @n.xm2.nsg13_lv_pmos[rg]
+
+* Operating Point Analysis
+op
+remzerovec
+write self-cascode-pmos-op.raw
+
+quit
+.endc
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end

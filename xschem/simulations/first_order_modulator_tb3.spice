@@ -1,0 +1,249 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/first_order_modulator_tb3.sch
+**.subckt first_order_modulator_tb3
+V5 phi1 GND PULSE(0 1.2 0 1n 1n 80n 195.3125n)
+V6 phi1n GND PULSE(1.2 0 0 1n 1n 80n 195.3125n)
+V7 phi2 GND PULSE(0 1.2 110n 1n 1n 80n 195.3125n)
+V8 phi2n GND PULSE(1.2 0 110n 1n 1n 80n 195.3125n)
+V1 Vcm GND 0.6
+V2 Vin GND SIN(0.6 0.1 20k)
+V3 vdd GND 1.2
+V9 VBN GND 0.3
+V10 VBP GND 0.2
+V12 Vref_neg GND 0.5
+V11 Vref_pos GND 0.7
+x1 Vin VBN VBP Vcm Vref_pos Vref_neg phi1 phi1n phi2 phi2n vdd GND vout first_order_modulator
+**** begin user architecture code
+
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerMOShv.lib mos_tt
+.lib cornerHBT.lib hbt_typ
+.lib cornerRES.lib res_typ
+.lib cornerCAP.lib cap_typ
+
+
+
+
+.control
+save all
+tran 10n 100u
+
+* ===== Total current =====
+let i_total = -v3#branch
+
+plot i_total
+
+meas tran I_total AVG i_total from=2e-6 to=100e-6
+
+* ===== Power =====
+let p_total = 1.2*i_total
+
+plot p_total
+
+meas tran P_total AVG p_total from=2e-6 to=100e-6
+
+print I_total
+print P_total
+write first_order_modulator_tb3.raw
+wrdata output3.txt v(vout)
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  first_order_modulator.sym # of pins=13
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/first_order_modulator.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/first_order_modulator.sch
+.subckt first_order_modulator Vin VBN VBP Vcm Vref_pos Vref_neg phi1 phi1n phi2 phi2n VDD VSS Vout
+*.ipin Vin
+*.ipin VBN
+*.ipin VBP
+*.ipin Vcm
+*.ipin Vref_pos
+*.ipin Vref_neg
+*.ipin phi1
+*.ipin phi1n
+*.ipin phi2
+*.ipin phi2n
+*.iopin VDD
+*.iopin VSS
+*.opin Vout
+x1 Vin net3 phi1 phi1n phi2 phi2n VBN VBP VDD VSS net1 Vcm SC_integrator
+x2 VDD net2 net1 Vcm VSS comparator
+x3 net2 VDD VSS Vout buffer
+x4 Vout Vref_pos Vref_neg VDD net3 VSS 1_bit_DAC
+.ends
+
+
+* expanding   symbol:  SC_integrator.sym # of pins=12
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/SC_integrator.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/SC_integrator.sch
+.subckt SC_integrator Vin Vfb phi1 phi1n phi2 phi2n VBN VBP vdd gnd sc_int_out Vcm
+*.ipin Vin
+*.ipin Vfb
+*.ipin phi1
+*.ipin phi1n
+*.ipin phi2
+*.ipin phi2n
+*.ipin VBN
+*.ipin VBP
+*.iopin vdd
+*.iopin gnd
+*.opin sc_int_out
+*.ipin Vcm
+x1 Vin phi1 phi1n Vfb phi2 phi2n Vcm net1 vdd gnd switched_capacitor
+x5 net1 Vcm VBN VBP sc_int_out vdd gnd Pseudo_compensated_self_cascode_OTA
+XC2 net1 sc_int_out cap_cmim w=5.0e-6 l=5.0e-6 m=25
+XC1 sc_int_out gnd cap_cmim w=5.0e-6 l=5.0e-6 m=53
+.ends
+
+
+* expanding   symbol:  comparator.sym # of pins=5
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/comparator.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/comparator.sch
+.subckt comparator VDD out inn inp VSS
+*.ipin inp
+*.ipin inn
+*.iopin VDD
+*.iopin VSS
+*.opin out
+XM4 net2 net1 VDD VDD sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+XM3 net1 net1 VDD VDD sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+XM1 net1 inp net3 VSS sg13_lv_nmos w=1.5u l=5u ng=1 m=1
+XM2 net2 inn net3 VSS sg13_lv_nmos w=1.5u l=5u ng=1 m=1
+XM7 net4 net4 VDD VDD sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+XM8 out net2 VDD VDD sg13_lv_pmos w=1.5u l=5u ng=1 m=1
+XM6 net4 net4 VSS VSS sg13_lv_nmos w=2.5u l=5u ng=1 m=1
+XM5 net3 net4 VSS VSS sg13_lv_nmos w=1.5u l=5u ng=1 m=1
+XM9 out net4 VSS VSS sg13_lv_nmos w=1.5u l=5u ng=1 m=1
+.ends
+
+
+* expanding   symbol:  buffer.sym # of pins=4
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/buffer.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/buffer.sch
+.subckt buffer vin vdd gnd vout
+*.ipin vin
+*.iopin vdd
+*.iopin gnd
+*.opin vout
+x10 vdd gnd vin net1 inv_4
+x8 vdd gnd net1 vout inv_4
+.ends
+
+
+* expanding   symbol:  1_bit_DAC.sym # of pins=6
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/1_bit_DAC.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/1_bit_DAC.sch
+.subckt 1_bit_DAC Vin Vref_pos Vref_neg VDD Vout VSS
+*.ipin Vin
+*.ipin Vref_pos
+*.ipin Vref_neg
+*.iopin VDD
+*.iopin VSS
+*.opin Vout
+x2 net1 vref_pos Vout VSS Vin VDD T_gate
+x3 Vin vref_neg Vout VSS net1 VDD T_gate
+x1 vdd Vin net1 VSS inverter
+.ends
+
+
+* expanding   symbol:  switched_capacitor.sym # of pins=10
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/switched_capacitor.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/switched_capacitor.sch
+.subckt switched_capacitor Vin phi1 phi1n Vfb phi2 phi2n Vcm vout vdd gnd
+*.ipin Vin
+*.ipin phi1
+*.ipin phi1n
+*.ipin Vfb
+*.ipin phi2
+*.ipin phi2n
+*.ipin Vcm
+*.opin vout
+*.iopin vdd
+*.iopin gnd
+x1 phi1n Vin sc_left gnd phi1 vdd T_gate
+x2 phi2n Vfb sc_left gnd phi2 vdd T_gate
+x3 phi1n Vcm sc_right gnd phi1 vdd T_gate
+XC1 sc_left sc_right cap_cmim w=5.0e-6 l=5.0e-6 m=50
+x4 phi2n sc_right vout gnd phi2 vdd T_gate
+XC4 vout gnd cap_cmim w=5.0e-6 l=5.0e-6 m=100
+.ends
+
+
+* expanding   symbol:  Pseudo_compensated_self_cascode_OTA.sym # of pins=7
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/Pseudo_compensated_self_cascode_OTA.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/Pseudo_compensated_self_cascode_OTA.sch
+.subckt Pseudo_compensated_self_cascode_OTA VN VP V_BN V_BP V_OUT VDD VSS
+*.ipin VN
+*.ipin VP
+*.ipin V_BN
+*.ipin V_BP
+*.opin V_OUT
+*.iopin VDD
+*.iopin VSS
+XM11 net1 VN net2 VSS sg13_lv_nmos w=70u l=0.8u ng=7 m=1
+XM12 V_GS VN net1 V_BP sg13_lv_nmos w=38.5u l=0.3u ng=4 m=1
+XM21 net4 VP net2 VSS sg13_lv_nmos w=70u l=0.8u ng=7 m=1
+XM22 VB32 VP net4 V_BP sg13_lv_nmos w=38.5u l=0.3u ng=4 m=1
+XM52 net2 V_BN net3 V_BN sg13_lv_nmos w=40u l=0.5u ng=4 m=1
+XM51 net3 V_BN VSS VSS sg13_lv_nmos w=40u l=2.5u ng=4 m=1
+XM32 V_GS V_GS VS32 VB32 sg13_lv_pmos w=48.5u l=1.24u ng=5 m=1
+XM31 VS32 V_GS VDD VDD sg13_lv_pmos w=48.5u l=0.87u ng=5 m=1
+XM42 VB32 V_GS VS42 V_GS sg13_lv_pmos w=48.5u l=1.24u ng=5 m=1
+XM41 VS42 V_GS VDD VDD sg13_lv_pmos w=48.5u l=0.87u ng=5 m=1
+XM61 net5 VB32 VDD VDD sg13_lv_pmos w=60u l=0.13u ng=6 m=1
+XM62 V_OUT VB32 net5 V_BP sg13_lv_pmos w=60u l=0.13u ng=6 m=1
+XM72 V_OUT V_BN net6 V_BN sg13_lv_nmos w=40u l=0.5u ng=10 m=1
+XM71 net6 V_BN VSS VSS sg13_lv_nmos w=40u l=2.5u ng=4 m=1
+XC3 VS42 V_OUT cap_cmim w=5.0e-6 l=5.0e-6 m=38
+XC1 net4 V_OUT cap_cmim w=5.0e-6 l=5.0e-6 m=38
+.ends
+
+
+* expanding   symbol:  inv_4.sym # of pins=4
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/inv_4.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/inv_4.sch
+.subckt inv_4 VDD VSS A Y
+*.opin Y
+*.ipin A
+*.iopin VDD
+*.iopin VSS
+XMN0 Y A VSS VSS sg13_lv_nmos w=2.96u l=130.00n ng=4 m=1
+XMP0 Y A VDD VDD sg13_lv_pmos w=4.48u l=130.00n ng=4 m=1
+.ends
+
+
+* expanding   symbol:
+*+  /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/T_gate/schematic/T_gate.sym # of pins=6
+** sym_path: /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/T_gate/schematic/T_gate.sym
+** sch_path: /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/T_gate/schematic/T_gate.sch
+.subckt T_gate !Control Vin Vout gnd Control vdd
+*.iopin Vout
+*.iopin Vin
+*.iopin !Control
+*.iopin Control
+*.iopin gnd
+*.iopin vdd
+XM1 Vin Control Vout gnd sg13_lv_nmos w=1u l=0.13u ng=1 m=1
+XM2 Vout !Control Vin vdd sg13_lv_pmos w=3u l=0.13u ng=1 m=1
+.ends
+
+
+* expanding   symbol:
+*+  /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/bootstrap_switch/schematic/inverter.sym # of pins=4
+** sym_path: /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/bootstrap_switch/schematic/inverter.sym
+** sch_path: /home/designer/shared/IHP-AnalogAcademy/modules/module_3_8_bit_SAR_ADC/part_2_digital_comps/bootstrap_switch/schematic/inverter.sch
+.subckt inverter vdd vi vo gnd
+*.iopin vi
+*.iopin vo
+*.iopin gnd
+*.iopin vdd
+XM5 vo vi vdd vdd sg13_lv_pmos w=800n l=130n ng=1 m=1
+XM7 vo vi gnd gnd sg13_lv_nmos w=400n l=130n ng=1 m=1
+.ends
+
+.GLOBAL GND
+.end

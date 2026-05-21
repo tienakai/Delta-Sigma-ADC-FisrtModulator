@@ -1,0 +1,88 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/non_overlapped_clocks_tb.sch
+**.subckt non_overlapped_clocks_tb
+V2 clk GND PULSE(0 1.2 0 1u 1u 10u 1u)
+V1 vdd GND 1.2
+x1 vdd net2 nclk net1 GND nand_gate
+x6 vdd net1 net2 clk GND nand_gate
+x3 GND net1 net3 vdd dlygate1_1
+x4 GND net2 net4 vdd dlygate1_1
+x2 vdd GND clk nclk inv_1
+x5 vdd GND net3 phi1 inv_1
+x7 vdd GND phi1 phi1n inv_1
+x8 vdd GND net4 phi2 inv_1
+x9 vdd GND phi2 phi2n inv_1
+**** begin user architecture code
+
+
+.control
+save all
+tran 10n 30u
+meas tran t1 TRIG v(phi2) VAL=0.6 FALl=3 TARG v(phi1) VAL=0.6 RISE = 3
+meas tran t2 TRIG v(phi2n) VAL=0.6 RISE=3 TARG v(phi1n) VAL=0.6 RISE = 3
+write non_overlapped_clocks_tb.raw
+.endc
+
+
+
+
+
+.lib cornerMOSlv.lib mos_tt
+.lib cornerMOShv.lib mos_tt
+.lib cornerHBT.lib hbt_typ
+.lib cornerRES.lib res_typ
+.lib cornerCAP.lib cap_typ
+.include /opt/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  nand_gate.sym # of pins=5
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/nand_gate.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/nand_gate.sch
+.subckt nand_gate vdd Vo B A gnd
+*.iopin vdd
+*.iopin gnd
+*.ipin A
+*.opin Vo
+*.ipin B
+XM5 Vo A vdd vdd sg13_lv_pmos w=0.5u l=0.13u ng=1 m=1
+XM6 Vo A net1 gnd sg13_lv_nmos w=0.25u l=0.13u ng=1 m=1
+XM1 net1 B gnd gnd sg13_lv_nmos w=0.25u l=0.13u ng=1 m=1
+XM2 Vo B vdd vdd sg13_lv_pmos w=0.5u l=0.13u ng=1 m=1
+.ends
+
+
+* expanding   symbol:  dlygate1_1.sym # of pins=4
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/dlygate1_1.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/dlygate1_1.sch
+.subckt dlygate1_1 VSS A Y VDD
+*.opin Y
+*.ipin A
+*.iopin VDD
+*.iopin VSS
+XMN0 net1 A VSS VSS sg13_lv_nmos w=420.00n l=130.00n ng=1 m=1
+XMP0 net1 A VDD VDD sg13_lv_pmos w=420.00n l=130.00n ng=1 m=1
+XMN1 net2 net1 VSS VSS sg13_lv_nmos w=420.00n l=130.00n ng=1 m=1
+XMP1 net2 net1 VDD VDD sg13_lv_pmos w=1.00u l=130.00n ng=1 m=1
+XMN2 net3 net2 VSS VSS sg13_lv_nmos w=420.00n l=130.00n ng=1 m=1
+XMP2 net3 net2 VDD VDD sg13_lv_pmos w=1.00u l=130.00n ng=1 m=1
+XMN3 Y net3 VSS VSS sg13_lv_nmos w=740.00n l=130.00n ng=1 m=1
+XMP3 Y net3 VDD VDD sg13_lv_pmos w=1.12u l=130.00n ng=1 m=1
+.ends
+
+
+* expanding   symbol:  inv_1.sym # of pins=4
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/inv_1.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/inv_1.sch
+.subckt inv_1 VDD VSS A Y
+*.opin Y
+*.ipin A
+*.iopin VDD
+*.iopin VSS
+XMN0 Y A VSS VSS sg13_lv_nmos w=300.00n l=130.00n ng=1 m=1
+XMP0 Y A VDD VDD sg13_lv_pmos w=1.2u l=130.00n ng=1 m=1
+.ends
+
+.GLOBAL GND
+.end
