@@ -11,7 +11,24 @@ V9 VBN GND 0.3
 V10 VBP GND 0.2
 V12 Vref_neg GND 0.5
 V11 Vref_pos GND 0.7
-x1 Vin VBN VBP Vcm Vref_pos Vref_neg phi1 phi1n phi2 phi2n vdd GND vout first_order_modulator
+x1 Vin VBN VBP Vcm Vref_pos Vref_neg phi1 phi1n phi2 phi2n vdd GND net1 first_order_modulator
+adut [ net4 net5 net6 net7 ] [ net2 net3 ] null dut
+.model dut d_cosim simulation=./sinc_sync.so
+V4 CLK GND pulse(0 1.2 0 100p 100p 10n 20n)
+V13 RST GND 0
+V14 en GND 1.2
+A20 [ net1 ] [ net6 ] adc1
+.model adc1 adc_bridge in_low=0.1 in_high=0.9
+A1 [ RST ] [ net5 ] adc1
+.model adc1 adc_bridge in_low=0.1 in_high=0.9
+A2 [ CLK ] [ net4 ] adc1
+.model adc1 adc_bridge in_low=0.1 in_high=0.9
+A3 [ en ] [ net7 ] adc1
+.model adc1 adc_bridge in_low=0.1 in_high=0.9
+A17 [ net2 ] [ vout ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
+A4 [ net3 ] [ data_valid ] dac1
+.model dac1 dac_bridge out_low=0 out_high=1.2
 **** begin user architecture code
 
 

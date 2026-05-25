@@ -1,0 +1,21 @@
+* Extracted by KLayout with SG13G2 LVS runset on : 21/05/2026 18:15
+
+.SUBCKT comparator VSS VDD inp inn out
+M$1 \$4 \$4 VSS VSS sg13_lv_nmos L=5u W=2.5u AS=0.85p AD=0.72125p PS=5.68u
++ PD=3.235u
+M$2 VSS \$4 \$10 VSS sg13_lv_nmos L=5u W=1.5u AS=0.72125p AD=0.51p PS=3.235u
++ PD=3.68u
+M$3 \$3 inp \$10 VSS sg13_lv_nmos L=5u W=1.5u AS=0.51p AD=0.285p PS=3.68u
++ PD=1.88u
+M$4 \$10 inn \$18 VSS sg13_lv_nmos L=5u W=1.5u AS=0.285p AD=0.51p PS=1.88u
++ PD=3.68u
+M$5 VSS \$4 out VSS sg13_lv_nmos L=5u W=1.5u AS=0.51p AD=0.51p PS=3.68u PD=3.68u
+M$6 \$3 \$3 VDD VDD sg13_lv_pmos L=5u W=1.5u AS=0.51p AD=0.285p PS=3.68u
++ PD=1.88u
+M$7 VDD \$3 \$18 VDD sg13_lv_pmos L=5u W=1.5u AS=0.285p AD=0.51p PS=1.88u
++ PD=3.68u
+M$8 \$4 \$4 VDD VDD sg13_lv_pmos L=5u W=1.5u AS=0.51p AD=0.285p PS=3.68u
++ PD=1.88u
+M$9 VDD \$18 out VDD sg13_lv_pmos L=5u W=1.5u AS=0.285p AD=0.51p PS=1.88u
++ PD=3.68u
+.ENDS comparator

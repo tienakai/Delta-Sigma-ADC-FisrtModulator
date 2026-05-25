@@ -1,0 +1,20 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/switched_capacitor.sch
+.subckt switched_capacitor Vin phi1 phi1n Vfb phi2 phi2n Vcm vout vdd gnd
+*.PININFO Vin:I phi1:I phi1n:I Vfb:I phi2:I phi2n:I Vcm:I vout:O vdd:B gnd:B
+x1 phi1n Vin sc_left gnd phi1 vdd T_gate
+x2 phi2n Vfb sc_left gnd phi2 vdd T_gate
+x3 phi1n Vcm sc_right gnd phi1 vdd T_gate
+C1 sc_left sc_right cap_cmim w=5.0e-6 l=5.0e-6 m=50
+x4 phi2n sc_right vout gnd phi2 vdd T_gate
+C4 vout gnd cap_cmim w=5.0e-6 l=5.0e-6 m=100
+.ends
+
+* expanding   symbol:  T_gate.sym # of pins=6
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/T_gate.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/T_gate.sch
+.subckt T_gate !Control Vin Vout gnd Control vdd
+*.PININFO Vout:B Vin:B !Control:B Control:B gnd:B vdd:B
+M1 Vin Control Vout gnd sg13_lv_nmos w=1u l=0.13u ng=1 m=1
+M2 Vout !Control Vin vdd sg13_lv_pmos w=3u l=0.13u ng=1 m=1
+.ends
+

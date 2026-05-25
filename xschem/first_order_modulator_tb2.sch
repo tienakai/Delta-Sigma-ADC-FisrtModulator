@@ -43,7 +43,7 @@ N 1400 -1260 1400 -1160 {lab=phi2n}
 N 1310 -1260 1400 -1260 {lab=phi2n}
 N 1460 -1200 1460 -1160 {lab=vdd}
 N 1460 -920 1460 -880 {lab=GND}
-N 1570 -1040 1620 -1040 {lab=vout}
+N 1570 -1040 1670 -1040 {lab=vout}
 C {vsource.sym} 820 -1530 0 0 {name=V5 value="PULSE(0 1.2 0 1n 1n 160n 390.625n)"}
 C {gnd.sym} 820 -1470 0 0 {name=l13 lab=GND}
 C {lab_pin.sym} 820 -1590 0 0 {name=p17 sig_type=std_logic lab=phi1}
@@ -133,4 +133,4 @@ C {lab_pin.sym} 1310 -1260 0 0 {name=p14 sig_type=std_logic lab=phi2n}
 C {lab_pin.sym} 1310 -1220 0 0 {name=p15 sig_type=std_logic lab=phi1n}
 C {lab_pin.sym} 1460 -1200 0 1 {name=p16 sig_type=std_logic lab=vdd}
 C {gnd.sym} 1460 -880 0 0 {name=l4 lab=GND}
-C {lab_pin.sym} 1620 -1040 0 1 {name=p19 sig_type=std_logic lab=vout}
+C {lab_pin.sym} 1670 -1040 0 1 {name=p19 sig_type=std_logic lab=vout}

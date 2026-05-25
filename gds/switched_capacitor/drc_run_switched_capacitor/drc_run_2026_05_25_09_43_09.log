@@ -1,0 +1,9 @@
+25-May-2026 11:43:10 | INFO    | KLayout version detected: 0.30.5
+25-May-2026 11:43:10 | INFO    | Using DRC JSON file: /opt/pdks/ihp-sg13g2/libs.tech/klayout/python/sg13g2_pycell_lib/sg13g2_tech_mod.json
+25-May-2026 11:43:10 | INFO    | Running IHP-SG13G2 main checks on design /home/designer/shared/Delta-sigma-adc/gds/switched_capacitor/switched_capacitor.gds, topcell: switched_capacitor
+25-May-2026 11:43:12 | INFO    | Running IHP-SG13G2 sg13g2_maximal checks on design /home/designer/shared/Delta-sigma-adc/gds/switched_capacitor/switched_capacitor.gds, topcell: switched_capacitor
+25-May-2026 11:43:18 | INFO    | Completed running Sg13g2_maximal checks.
+25-May-2026 11:43:18 | INFO    | =====================================================================================
+25-May-2026 11:43:18 | INFO    | ✅ --- KLayout DRC Check Passed: No DRC violations detected in the layout. --- ✅
+25-May-2026 11:43:18 | INFO    | =====================================================================================
+25-May-2026 11:43:18 | INFO    | Total DRC Run time: 8.18 seconds (including execution, analysis, and reporting)

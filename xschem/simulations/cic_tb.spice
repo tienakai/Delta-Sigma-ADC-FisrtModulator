@@ -1,9 +1,8 @@
 ** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/cic_tb.sch
 **.subckt cic_tb
 V1 CLK GND PULSE(0 1.2 0 100p 100p 5n 100n)
-V2 RST GND PWL( 0n 1.2 40n 1.2 40.1n 0
-)
-V3 X GND PULSE(0 1.2 0 100p 100p 5n 100n)
+V2 RST GND 0
+V3 X GND 1.2
 A18 [ CLK ] [ net1 ] adc1
 .model adc1 adc_bridge in_low=0.1 in_high=0.9
 A1 [ RST ] [ net2 ] adc1
@@ -46,7 +45,7 @@ adut [ net1 net2 net3 ] [ net4 net5 net6 net7 net8 net9 net10 net11 net12 net13 
 .param temp=27
 .control
 save all
-tran 100p 20u
+tran 100p 100u
 write cic_tb.raw
 .endc
 

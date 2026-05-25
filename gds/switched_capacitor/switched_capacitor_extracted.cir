@@ -1,0 +1,22 @@
+* Extracted by KLayout with SG13G2 LVS runset on : 25/05/2026 11:43
+
+.SUBCKT switched_capacitor gnd vout vdd phi2n Vfb phi2 phi1n Vcm phi1 Vin
+M$1 Vfb phi2 \$3 gnd sg13_lv_nmos L=0.13u W=1u AS=0.34p AD=0.34p PS=2.68u
++ PD=2.68u
+M$2 \$1 phi2 vout gnd sg13_lv_nmos L=0.13u W=1u AS=0.34p AD=0.34p PS=2.68u
++ PD=2.68u
+M$3 Vcm phi1 \$1 gnd sg13_lv_nmos L=0.13u W=1u AS=0.34p AD=0.34p PS=2.68u
++ PD=2.68u
+M$4 Vin phi1 \$3 gnd sg13_lv_nmos L=0.13u W=1u AS=0.34p AD=0.34p PS=2.68u
++ PD=2.68u
+M$5 Vfb phi2n \$3 vdd sg13_lv_pmos L=0.13u W=3u AS=1.02p AD=1.02p PS=6.68u
++ PD=6.68u
+M$6 \$1 phi2n vout vdd sg13_lv_pmos L=0.13u W=3u AS=1.02p AD=1.02p PS=6.68u
++ PD=6.68u
+M$7 Vcm phi1n \$1 vdd sg13_lv_pmos L=0.13u W=3u AS=1.02p AD=1.02p PS=6.68u
++ PD=6.68u
+M$8 Vin phi1n \$3 vdd sg13_lv_pmos L=0.13u W=3u AS=1.02p AD=1.02p PS=6.68u
++ PD=6.68u
+C$9 \$3 \$1 cap_cmim w=5u l=5u A=25p P=20u m=50
+C$14 vout gnd cap_cmim w=5u l=5u A=25p P=20u m=100
+.ENDS switched_capacitor

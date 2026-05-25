@@ -65,12 +65,8 @@ C {lab_pin.sym} -560 -170 0 0 {name=p18 sig_type=std_logic lab=CLK}
 C {lab_pin.sym} -560 70 0 0 {name=p19 sig_type=std_logic lab=RST}
 C {lab_pin.sym} -420 70 0 0 {name=p20 sig_type=std_logic lab=X}
 C {vsource.sym} -560 -90 0 0 {name=V1 value="PULSE(0 1.2 0 100p 100p 5n 100n)" savecurrent=false}
-C {vsource.sym} -560 170 0 0 {name=V2 value="PWL(
-+ 0n 1.2
-+ 40n 1.2
-+ 40.1n 0
-)" savecurrent=false}
-C {vsource.sym} -420 170 0 0 {name=V3 value="PULSE(0 1.2 0 100p 100p 5n 100n)" savecurrent=false}
+C {vsource.sym} -560 170 0 0 {name=V2 value=0 savecurrent=false}
+C {vsource.sym} -420 170 0 0 {name=V3 value=1.2 savecurrent=false}
 C {gnd.sym} -560 -20 0 0 {name=l1 lab=GND}
 C {gnd.sym} -560 240 0 0 {name=l2 lab=GND}
 C {gnd.sym} -420 240 0 0 {name=l3 lab=GND}
@@ -79,7 +75,7 @@ value="
 .param temp=27
 .control
 save all 
-tran 100p 20u
+tran 100p 100u
 write cic_tb.raw
 .endc
 "}

@@ -1,0 +1,6 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/test.sch
+.subckt test vin vout vdd vb vss v1
+*.PININFO vin:I vout:O vdd:B vb:I vss:B v1:O
+M1 vdd vin vout vb sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1
+M2 vout vin v1 vss sg13_lv_nmos w=0.15u l=0.13u ng=1 m=1
+.ends

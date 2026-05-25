@@ -1,0 +1,20 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/Pseudo_compensated_self_cascode_OTA.sch
+.subckt Pseudo_compensated_self_cascode_OTA VN VP V_BN V_BP V_OUT VDD VSS
+*.PININFO VN:I VP:I V_BN:I V_BP:I V_OUT:O VDD:B VSS:B
+M11 net1 VN net2 VSS sg13_lv_nmos w=70u l=0.8u ng=7 m=1
+M12 V_GS VN net1 V_BP sg13_lv_nmos w=38.5u l=0.3u ng=4 m=1
+M21 V2 VP net2 VSS sg13_lv_nmos w=70u l=0.8u ng=7 m=1
+M22 VB32 VP V2 V_BP sg13_lv_nmos w=38.5u l=0.3u ng=4 m=1
+M52 net2 V_BN net3 V_BN sg13_lv_nmos w=40u l=0.5u ng=4 m=1
+M51 net3 V_BN VSS VSS sg13_lv_nmos w=40u l=2.5u ng=4 m=1
+M32 V_GS V_GS VS32 VB32 sg13_lv_pmos w=48.5u l=1.24u ng=5 m=1
+M31 VS32 V_GS VDD VDD sg13_lv_pmos w=48.5u l=0.87u ng=5 m=1
+M42 VB32 V_GS VS42 V_GS sg13_lv_pmos w=48.5u l=1.24u ng=5 m=1
+M41 VS42 V_GS VDD VDD sg13_lv_pmos w=48.5u l=0.87u ng=5 m=1
+M61 net4 VB32 VDD VDD sg13_lv_pmos w=60u l=0.13u ng=6 m=1
+M62 V_OUT VB32 net4 V_BP sg13_lv_pmos w=60u l=0.13u ng=6 m=1
+M72 V_OUT V_BN net5 V_BN sg13_lv_nmos w=40u l=0.5u ng=10 m=1
+M71 net5 V_BN VSS VSS sg13_lv_nmos w=40u l=2.5u ng=4 m=1
+C3 VS42 V_OUT cap_cmim w=5.0e-6 l=5.0e-6 m=38
+C1 V2 V_OUT cap_cmim w=5.0e-6 l=5.0e-6 m=38
+.ends

@@ -1,0 +1,34 @@
+* Extracted by KLayout with SG13G2 LVS runset on : 25/05/2026 11:36
+
+.SUBCKT Pseudo_compensated_self_cascode_OTA VSS VP VN V_OUT V_BP VS32 V_BN VDD
+M$1 \$8 V_BN VSS VSS sg13_lv_nmos L=2.5u W=40u AS=9.1p AD=9.1p PS=51.82u
++ PD=51.82u
+M$5 \$9 V_BN VSS VSS sg13_lv_nmos L=2.5u W=40u AS=9.1p AD=9.1p PS=51.82u
++ PD=51.82u
+M$9 \$6 VN \$5 VSS sg13_lv_nmos L=0.8u W=70u AS=14.8p AD=14.8p PS=82.96u
++ PD=82.96u
+M$16 \$5 VP \$3 VSS sg13_lv_nmos L=0.8u W=70u AS=14.8p AD=14.8p PS=82.96u
++ PD=82.96u
+M$23 \$14 VN \$6 V_BP sg13_lv_nmos L=0.3u W=38.5u AS=8.75875p AD=8.75875p
++ PS=49.945u PD=49.945u
+M$27 \$15 VP \$3 V_BP sg13_lv_nmos L=0.3u W=38.5u AS=8.75875p AD=8.75875p
++ PS=49.945u PD=49.945u
+M$31 \$8 V_BN \$5 V_BN sg13_lv_nmos L=0.5u W=40u AS=9.1p AD=9.1p PS=51.82u
++ PD=51.82u
+M$35 \$9 V_BN V_OUT V_BN sg13_lv_nmos L=0.5u W=40u AS=9.1p AD=9.1p PS=51.82u
++ PD=51.82u
+M$39 VS32 \$14 \$14 \$15 sg13_lv_pmos L=1.24u W=48.5u AS=10.67p AD=10.67p
++ PS=60.4u PD=60.4u
+M$44 \$15 \$14 \$25 \$14 sg13_lv_pmos L=1.24u W=48.5u AS=10.67p AD=10.67p
++ PS=60.4u PD=60.4u
+M$49 VS32 \$14 VDD VDD sg13_lv_pmos L=0.87u W=48.5u AS=10.67p AD=10.67p
++ PS=60.4u PD=60.4u
+M$54 \$25 \$14 VDD VDD sg13_lv_pmos L=0.87u W=48.5u AS=10.67p AD=10.67p
++ PS=60.4u PD=60.4u
+M$59 \$28 \$15 V_OUT V_BP sg13_lv_pmos L=0.13u W=60u AS=12.9p AD=12.9p
++ PS=72.58u PD=72.58u
+M$65 \$28 \$15 VDD VDD sg13_lv_pmos L=0.13u W=60u AS=12.9p AD=12.9p PS=72.58u
++ PD=72.58u
+C$71 \$3 V_OUT cap_cmim w=5u l=5u A=25p P=20u m=38
+C$109 \$25 V_OUT cap_cmim w=5u l=5u A=25p P=20u m=38
+.ENDS Pseudo_compensated_self_cascode_OTA

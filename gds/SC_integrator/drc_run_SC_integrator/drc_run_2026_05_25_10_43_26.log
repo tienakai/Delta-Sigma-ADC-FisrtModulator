@@ -1,0 +1,9 @@
+25-May-2026 12:43:26 | INFO    | KLayout version detected: 0.30.5
+25-May-2026 12:43:26 | INFO    | Using DRC JSON file: /opt/pdks/ihp-sg13g2/libs.tech/klayout/python/sg13g2_pycell_lib/sg13g2_tech_mod.json
+25-May-2026 12:43:26 | INFO    | Running IHP-SG13G2 main checks on design /home/designer/shared/Delta-sigma-adc/gds/SC_integrator/SC_integrator.gds, topcell: SC_integrator
+25-May-2026 12:43:29 | INFO    | Running IHP-SG13G2 sg13g2_maximal checks on design /home/designer/shared/Delta-sigma-adc/gds/SC_integrator/SC_integrator.gds, topcell: SC_integrator
+25-May-2026 12:43:36 | INFO    | Completed running Sg13g2_maximal checks.
+25-May-2026 12:43:36 | INFO    | =====================================================================================
+25-May-2026 12:43:36 | INFO    | ✅ --- KLayout DRC Check Passed: No DRC violations detected in the layout. --- ✅
+25-May-2026 12:43:36 | INFO    | =====================================================================================
+25-May-2026 12:43:36 | INFO    | Total DRC Run time: 9.48 seconds (including execution, analysis, and reporting)
