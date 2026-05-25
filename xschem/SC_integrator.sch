@@ -28,6 +28,9 @@ N 40 -30 40 20 {lab=gnd}
 N 100 -30 100 20 {lab=phi2n}
 N -110 150 520 150 {lab=Vcm}
 N -110 -90 -110 150 {lab=Vcm}
+N 900 -390 900 -330 {lab=gnd}
+N 900 -450 980 -450 {lab=gnd}
+N 980 -450 980 -390 {lab=gnd}
 C {switched_capacitor.sym} 40 -120 0 0 {name=x1}
 C {lab_pin.sym} 980 -90 0 1 {name=p16 sig_type=std_logic lab=sc_int_out}
 C {Pseudo_compensated_self_cascode_OTA.sym} 320 90 0 0 {name=x5}
@@ -68,3 +71,12 @@ C {iopin.sym} -460 -120 0 0 {name=p20 lab=vdd}
 C {iopin.sym} -460 -80 0 0 {name=p21 lab=gnd}
 C {opin.sym} -450 -30 0 0 {name=p22 lab=sc_int_out}
 C {ipin.sym} -110 150 0 0 {name=p23 lab=Vcm}
+C {sg13g2_pr/cap_cmim.sym} 900 -420 0 0 {name=C3
+model=cap_cmim
+w=5.0e-6
+l=5.0e-6
+m=138
+spiceprefix=X}
+C {lab_pin.sym} 900 -330 0 0 {name=p24 sig_type=std_logic lab=gnd}
+C {lab_pin.sym} 980 -390 0 0 {name=p25 sig_type=std_logic lab=gnd}
+C {lab_pin.sym} 450 -180 0 0 {name=p28 sig_type=std_logic lab=v1}

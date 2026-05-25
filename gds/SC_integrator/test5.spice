@@ -1,0 +1,5 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/test5.sch
+.subckt test5
+
+C3 gnd gnd cap_cmim w=5.0e-6 l=5.0e-6 m=1
+.ends

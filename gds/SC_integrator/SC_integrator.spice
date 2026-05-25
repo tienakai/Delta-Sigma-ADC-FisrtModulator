@@ -1,0 +1,57 @@
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/SC_integrator.sch
+.subckt SC_integrator Vin Vfb phi1 phi1n phi2 phi2n VBN VBP vdd gnd sc_int_out Vcm
+*.PININFO Vin:I Vfb:I phi1:I phi1n:I phi2:I phi2n:I VBN:I VBP:I vdd:B gnd:B sc_int_out:O Vcm:I
+x1 Vin phi1 phi1n Vfb phi2 phi2n Vcm v1 vdd gnd switched_capacitor
+x5 v1 Vcm VBN VBP sc_int_out vdd gnd Pseudo_compensated_self_cascode_OTA
+C2 v1 sc_int_out cap_cmim w=5.0e-6 l=5.0e-6 m=25
+C1 sc_int_out gnd cap_cmim w=5.0e-6 l=5.0e-6 m=53
+C3 gnd gnd cap_cmim w=5.0e-6 l=5.0e-6 m=138
+.ends
+
+* expanding   symbol:  switched_capacitor.sym # of pins=10
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/switched_capacitor.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/switched_capacitor.sch
+.subckt switched_capacitor Vin phi1 phi1n Vfb phi2 phi2n Vcm vout vdd gnd
+*.PININFO Vin:I phi1:I phi1n:I Vfb:I phi2:I phi2n:I Vcm:I vout:O vdd:B gnd:B
+x1 phi1n Vin sc_left gnd phi1 vdd T_gate
+x2 phi2n Vfb sc_left gnd phi2 vdd T_gate
+x3 phi1n Vcm sc_right gnd phi1 vdd T_gate
+C1 sc_left sc_right cap_cmim w=5.0e-6 l=5.0e-6 m=50
+x4 phi2n sc_right vout gnd phi2 vdd T_gate
+C4 vout gnd cap_cmim w=5.0e-6 l=5.0e-6 m=100
+.ends
+
+
+* expanding   symbol:  Pseudo_compensated_self_cascode_OTA.sym # of pins=7
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/Pseudo_compensated_self_cascode_OTA.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/Pseudo_compensated_self_cascode_OTA.sch
+.subckt Pseudo_compensated_self_cascode_OTA VN VP V_BN V_BP V_OUT VDD VSS
+*.PININFO VN:I VP:I V_BN:I V_BP:I V_OUT:O VDD:B VSS:B
+M11 net1 VN net2 VSS sg13_lv_nmos w=70u l=0.8u ng=7 m=1
+M12 V_GS VN net1 V_BP sg13_lv_nmos w=38.5u l=0.3u ng=4 m=1
+M21 V2 VP net2 VSS sg13_lv_nmos w=70u l=0.8u ng=7 m=1
+M22 VB32 VP V2 V_BP sg13_lv_nmos w=38.5u l=0.3u ng=4 m=1
+M52 net2 V_BN net3 V_BN sg13_lv_nmos w=40u l=0.5u ng=4 m=1
+M51 net3 V_BN VSS VSS sg13_lv_nmos w=40u l=2.5u ng=4 m=1
+M32 V_GS V_GS VS32 VB32 sg13_lv_pmos w=48.5u l=1.24u ng=5 m=1
+M31 VS32 V_GS VDD VDD sg13_lv_pmos w=48.5u l=0.87u ng=5 m=1
+M42 VB32 V_GS VS42 V_GS sg13_lv_pmos w=48.5u l=1.24u ng=5 m=1
+M41 VS42 V_GS VDD VDD sg13_lv_pmos w=48.5u l=0.87u ng=5 m=1
+M61 net4 VB32 VDD VDD sg13_lv_pmos w=60u l=0.13u ng=6 m=1
+M62 V_OUT VB32 net4 V_BP sg13_lv_pmos w=60u l=0.13u ng=6 m=1
+M72 V_OUT V_BN net5 V_BN sg13_lv_nmos w=40u l=0.5u ng=10 m=1
+M71 net5 V_BN VSS VSS sg13_lv_nmos w=40u l=2.5u ng=4 m=1
+C3 VS42 V_OUT cap_cmim w=5.0e-6 l=5.0e-6 m=38
+C1 V2 V_OUT cap_cmim w=5.0e-6 l=5.0e-6 m=38
+.ends
+
+
+* expanding   symbol:  T_gate.sym # of pins=6
+** sym_path: /home/designer/shared/Delta-sigma-adc/xschem/T_gate.sym
+** sch_path: /home/designer/shared/Delta-sigma-adc/xschem/T_gate.sch
+.subckt T_gate !Control Vin Vout gnd Control vdd
+*.PININFO Vout:B Vin:B !Control:B Control:B gnd:B vdd:B
+M1 Vin Control Vout gnd sg13_lv_nmos w=1u l=0.13u ng=1 m=1
+M2 Vout !Control Vin vdd sg13_lv_pmos w=3u l=0.13u ng=1 m=1
+.ends
+

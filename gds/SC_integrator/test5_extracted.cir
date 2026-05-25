@@ -1,0 +1,5 @@
+* Extracted by KLayout with SG13G2 LVS runset on : 25/05/2026 19:15
+
+.SUBCKT test5 gnd
+C$1 gnd gnd cap_cmim w=5u l=5u A=25p P=20u m=1
+.ENDS test5

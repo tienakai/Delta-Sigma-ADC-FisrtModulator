@@ -1,0 +1,56 @@
+* Extracted by KLayout with SG13G2 LVS runset on : 25/05/2026 19:29
+
+.SUBCKT SC_integrator v1 gnd sc_int_out Vcm phi2n Vfb VBP phi2 VS32 VBN|V_BN
++ phi1n phi1 Vin vdd
+M$1 \$10 VBN|V_BN gnd gnd sg13_lv_nmos L=2.5u W=40u AS=9.1p AD=9.1p PS=51.82u
++ PD=51.82u
+M$5 \$11 VBN|V_BN gnd gnd sg13_lv_nmos L=2.5u W=40u AS=9.1p AD=9.1p PS=51.82u
++ PD=51.82u
+M$9 \$8 v1 \$9 gnd sg13_lv_nmos L=0.8u W=70u AS=14.8p AD=14.8p PS=82.96u
++ PD=82.96u
+M$16 \$9 Vcm \$7 gnd sg13_lv_nmos L=0.8u W=70u AS=14.8p AD=14.8p PS=82.96u
++ PD=82.96u
+M$23 \$19 v1 \$8 VBP sg13_lv_nmos L=0.3u W=38.5u AS=8.75875p AD=8.75875p
++ PS=49.945u PD=49.945u
+M$27 \$20 Vcm \$7 VBP sg13_lv_nmos L=0.3u W=38.5u AS=8.75875p AD=8.75875p
++ PS=49.945u PD=49.945u
+M$31 Vfb phi2 \$4 gnd sg13_lv_nmos L=0.13u W=1u AS=0.34p AD=0.34p PS=2.68u
++ PD=2.68u
+M$32 \$3 phi2 v1 gnd sg13_lv_nmos L=0.13u W=1u AS=0.34p AD=0.34p PS=2.68u
++ PD=2.68u
+M$33 \$10 VBN|V_BN \$9 VBN|V_BN sg13_lv_nmos L=0.5u W=40u AS=9.1p AD=9.1p
++ PS=51.82u PD=51.82u
+M$37 \$11 VBN|V_BN sc_int_out VBN|V_BN sg13_lv_nmos L=0.5u W=40u AS=9.1p
++ AD=9.1p PS=51.82u PD=51.82u
+M$41 Vcm phi1 \$3 gnd sg13_lv_nmos L=0.13u W=1u AS=0.34p AD=0.34p PS=2.68u
++ PD=2.68u
+M$42 Vin phi1 \$4 gnd sg13_lv_nmos L=0.13u W=1u AS=0.34p AD=0.34p PS=2.68u
++ PD=2.68u
+M$43 Vfb phi2n \$4 vdd sg13_lv_pmos L=0.13u W=3u AS=1.02p AD=1.02p PS=6.68u
++ PD=6.68u
+M$44 \$3 phi2n v1 vdd sg13_lv_pmos L=0.13u W=3u AS=1.02p AD=1.02p PS=6.68u
++ PD=6.68u
+M$45 Vcm phi1n \$3 vdd sg13_lv_pmos L=0.13u W=3u AS=1.02p AD=1.02p PS=6.68u
++ PD=6.68u
+M$46 VS32 \$19 \$19 \$20 sg13_lv_pmos L=1.24u W=48.5u AS=10.67p AD=10.67p
++ PS=60.4u PD=60.4u
+M$51 \$20 \$19 \$34 \$19 sg13_lv_pmos L=1.24u W=48.5u AS=10.67p AD=10.67p
++ PS=60.4u PD=60.4u
+M$56 VS32 \$19 vdd vdd sg13_lv_pmos L=0.87u W=48.5u AS=10.67p AD=10.67p
++ PS=60.4u PD=60.4u
+M$61 \$34 \$19 vdd vdd sg13_lv_pmos L=0.87u W=48.5u AS=10.67p AD=10.67p
++ PS=60.4u PD=60.4u
+M$66 Vin phi1n \$4 vdd sg13_lv_pmos L=0.13u W=3u AS=1.02p AD=1.02p PS=6.68u
++ PD=6.68u
+M$67 \$39 \$20 sc_int_out VBP sg13_lv_pmos L=0.13u W=60u AS=12.9p AD=12.9p
++ PS=72.58u PD=72.58u
+M$73 \$39 \$20 vdd vdd sg13_lv_pmos L=0.13u W=60u AS=12.9p AD=12.9p PS=72.58u
++ PD=72.58u
+C$79 gnd gnd cap_cmim w=5u l=5u A=25p P=20u m=138
+C$109 v1 gnd cap_cmim w=5u l=5u A=25p P=20u m=100
+C$114 \$4 \$3 cap_cmim w=5u l=5u A=25p P=20u m=50
+C$124 v1 sc_int_out cap_cmim w=5u l=5u A=25p P=20u m=25
+C$127 sc_int_out gnd cap_cmim w=5u l=5u A=25p P=20u m=53
+C$262 \$7 sc_int_out cap_cmim w=5u l=5u A=25p P=20u m=38
+C$300 \$34 sc_int_out cap_cmim w=5u l=5u A=25p P=20u m=38
+.ENDS SC_integrator
